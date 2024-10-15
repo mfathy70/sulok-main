@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "294343629808",
+    "project_id": "solok-app",
+    "storage_bucket": "solok-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294343629808:android:7f33f6844d3d98c98b9b35",
+        "android_client_info": {
+          "package_name": "com.smartmedia.sulok"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcebFxxQGMOAfXbXXrjxqrl2drR6J7Vn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

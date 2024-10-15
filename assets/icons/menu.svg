@@ -1,0 +1,10 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="ic_Hamburger">
+<path id="placeholder" d="M0.5 15C0.5 6.99187 6.99187 0.5 15 0.5H33C41.0081 0.5 47.5 6.99187 47.5 15V33C47.5 41.0081 41.0081 47.5 33 47.5H15C6.99187 47.5 0.5 41.0081 0.5 33V15Z" stroke="white"/>
+<g id="Group 5">
+<rect id="bar" x="11" y="14" width="20" height="3" rx="1.5" fill="#CE9D58"/>
+<rect id="bar_2" x="17" y="22" width="20" height="3" rx="1.5" fill="#CE9D58"/>
+<rect id="bar_3" x="11" y="30" width="20" height="3" rx="1.5" fill="#CE9D58"/>
+</g>
+</g>
+</svg>

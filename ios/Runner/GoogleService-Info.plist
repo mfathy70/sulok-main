@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyBaNsGvuYkXMExqPF0p6WB_8ZuKLr51w4c</string>
+	<string>AIzaSyC0ry8f62ZngfkhcAgXJVFY1PTCBEM1tpo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>420759320078</string>
+	<string>294343629808</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.smartmedia.sulok</string>
 	<key>PROJECT_ID</key>
-	<string>sulok-974b7</string>
+	<string>solok-app</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sulok-974b7.appspot.com</string>
+	<string>solok-app.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:420759320078:ios:e28548c1c22437b918ae5f</string>
+	<string>1:294343629808:ios:d8cddc1c9f3aeb6c8b9b35</string>
 </dict>
 </plist>

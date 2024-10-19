@@ -54,4 +54,33 @@ class StudentMessagesController extends GetxController {
     closeLoading();
     update();
   }
+
+  makeDeleteNotification(String id) async {
+    Get.back();
+    loading();
+    await messagesRepo.deleteNotifications(id).then((value) async {
+      if (value.msgNum != 0) {
+        await LoginRepo().refreshStudentData();
+
+        update();
+      }
+    });
+    closeLoading();
+    update();
+  }
+
+  makeAllDeleteNotifications() async {
+    Get.back();
+    loading();
+    await messagesRepo.deleteNotifications(null).then((value) async {
+      LoginRepo().refreshStudentData();
+      if (value.msgNum != 0) {
+        await LoginRepo().refreshStudentData();
+
+        update();
+      }
+    });
+    closeLoading();
+    update();
+  }
 }

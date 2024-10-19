@@ -72,48 +72,53 @@ class StudentNotificationScreen extends StatelessWidget {
                                 ? AppColors.grey
                                 : AppColors.amberSecond,
                             title: 'حذف جميع التنبيهات',
-                            pressed: (notifications?.isEmpty??true)?(){}:() {
-                              Get.dialog(AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 5,
-                                      height: 70,
-                                      color: AppColors.amberSecond,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Expanded(
-                                        child: CustomText(
-                                            'هل انت متاكد من حذف جميع التنبيهات')),
-                                  ],
-                                ),
-                                actions: [
-                                  MaterialButton(
-                                    onPressed: () {
-                                      controller.makeAllDeleteMessage();
-                                    },
-                                    child: const CustomText(
-                                      "حذف",
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      Get.back();
-                                      controller.update();
-                                    },
-                                    child: const CustomText("الغاء"),
-                                  ),
-                                ],
-                              ));
-                            })
+                            pressed: (notifications?.isEmpty ?? true)
+                                ? () {}
+                                : () {
+                                    Get.dialog(AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 5,
+                                            height: 70,
+                                            color: AppColors.amberSecond,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          const Expanded(
+                                              child: CustomText(
+                                                  'هل انت متاكد من حذف جميع التنبيهات')),
+                                        ],
+                                      ),
+                                      actions: [
+                                        MaterialButton(
+                                          onPressed: () {
+                                            controller
+                                                .makeAllDeleteNotifications();
+                                          },
+                                          child: const CustomText(
+                                            "حذف",
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                        MaterialButton(
+                                          onPressed: () {
+                                            Get.back();
+                                            controller.update();
+                                          },
+                                          child: const CustomText("الغاء"),
+                                        ),
+                                      ],
+                                    ));
+                                  })
                       ],
                     ),
                   ),
@@ -188,7 +193,7 @@ class StudentNotificationScreen extends StatelessWidget {
                                   actions: [
                                     MaterialButton(
                                       onPressed: () {
-                                        controller.makeDeleteMessage(
+                                        controller.makeDeleteNotification(
                                             i?.id.toString() ?? "");
                                       },
                                       child: const CustomText(

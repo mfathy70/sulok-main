@@ -14,6 +14,7 @@ class ApiUrl {
   static const saveTask = '${apiUrl}save-task';
   static const delete = '${apiUrl}delete';
   static const deleteMsg = '${apiUrl}deletemsg';
+  static const deleteNotification = '${apiUrl}delete_notification';
   static const deleteAccount = '${apiUrl}deletemyaccount';
   static const getAllMsg = '${apiUrl}getAllMessagesSalik';
   static const getAllMsgShi5 = '${apiUrl}getAllMessagesByCityhall';

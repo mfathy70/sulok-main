@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:sulok/network/api_response_model.dart';
 import 'package:sulok/screens/login/model/messages_response.dart';
 import '../../constant/global_functions.dart';
@@ -30,6 +29,20 @@ class MessagesRepo {
     }
   }
 
+  Future<ApiResponseModel> deleteNotifications(String? id) async {
+    String url = id == null
+        ? ApiUrl.deleteNotification
+        : "${ApiUrl.deleteNotification}?id=$id";
+    try {
+      final response = await BaseAPI.post(url, {});
+      var model = ApiResponseModel.fromJson(response);
+      return model;
+    } catch (e) {
+      secureLog(e.toString(), name: 'ERROR LOGIN REPO');
+      return ApiResponseModel(msg: 'حدث حطاء في الاتصال', msgNum: 2);
+    }
+  }
+
   Future<ApiResponseModel> sendMessage(Map<String, String> body) async {
     try {
       final response = await BaseAPI.post(ApiUrl.sendMsgSalik, body);
@@ -43,8 +56,8 @@ class MessagesRepo {
 
   Future<List<MsgResponse>> getAllMsg() async {
     try {
-      final response = await http.get(Uri.parse(ApiUrl.getAllMsg));
-      final List<dynamic> jsonData = jsonDecode(response.body)['messages'];
+      final response = await BaseAPI.post(ApiUrl.getAllMsg, {});
+      final List<dynamic> jsonData = response['messages'];
       return jsonData.map((msg) => MsgResponse.fromJson(msg)).toList();
     } catch (e) {
       secureLog(e.toString(), name: 'ERROR LOGIN REPO');

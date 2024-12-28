@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -68,10 +66,10 @@ class LocalStorageHelper {
   }
 
   static Future<StudentResponse> getStudentData() async {
-    StudentResponse loginTeacherResponse = StudentResponse.fromJson(json
+    StudentResponse studentResponse = StudentResponse.fromJson(json
         .decode(await storage.read(key: LocalStorageKeys.studentData) ?? "{}"));
     // print(loginTeacherResponse.toJson());
-    return loginTeacherResponse;
+    return studentResponse;
   }
 
   static Future<bool> checkStudentIsLoggedIn() async {

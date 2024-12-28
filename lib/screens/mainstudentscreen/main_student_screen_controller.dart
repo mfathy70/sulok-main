@@ -48,8 +48,7 @@ class MainStudentScreenController extends GetxController {
         refreshStudentData();
         Get.back();
       }
-      HelperFun.showToast("تم تحديد المهمة كمكتملة",
-          success: value.msgNum != 0);
+      HelperFun.showToast(value.msg ?? "غير مكتمل", success: value.msgNum != 0);
     });
   }
 

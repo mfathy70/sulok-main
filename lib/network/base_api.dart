@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:alice/core/alice_http_extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
-import 'package:sulok/helper/local_storage_helper.dart';
 import '../constant/global_functions.dart';
 import 'api_response_model.dart';
 import 'package:alice/alice.dart';
@@ -23,7 +22,7 @@ class BaseAPI {
       secureLog(body.toString(), name: 'BODY');
       final String queryString = Uri(
           queryParameters:
-          body.map((key, value) => MapEntry(key, value?.toString()))).query;
+              body.map((key, value) => MapEntry(key, value?.toString()))).query;
       String fullUrl = "$url?$queryString";
       var response = await http
           .post(Uri.parse(fullUrl), headers: await getHeader(), body: {})
@@ -106,7 +105,6 @@ class BaseAPI {
     // String apiKey =
     //     'ZZnUS84FEKcw8roZlLwrJ83keSGj661AMomSjTMpiEsBoIlSgsOPI9kHV1ByV7ekBmOqe3oZ63ar8tV55vNZH4J78SMLCAR9iNxrHEXx6pMLVkU1KjzDUEGd9kaVAmZlB3dD4HZSXT4WdGFTDfmzJKlPuBQU4ep4MYQMewlqd8EclYwyZb4DKA7e7dyLyHgkkGOYGN6rQV9zhXPx2gS0LUJpagcDN827VHJ9Uivy5mCbTTpomydCh0Xpjz4UIrFh';
     // String? token = await LocalStorageHelper.getToken();
-    String? token = '';
     Map<String, String> header = {
       // 'api_key': apiKey,
       'Accept': 'application/json',

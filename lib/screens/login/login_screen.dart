@@ -6,11 +6,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:sulok/constant/app_colors.dart';
 import 'package:sulok/helper/custom/custom_text_feild.dart';
 import 'package:sulok/helper/custom/default_screen.dart';
-import 'package:sulok/helper/helper_functions.dart';
 import 'package:sulok/screens/login/login_controller.dart';
-import 'package:sulok/screens/login/otp_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../constant/app_images.dart';
 import '../../helper/custom/custom_button.dart';
 import '../../helper/custom/custom_text.dart';

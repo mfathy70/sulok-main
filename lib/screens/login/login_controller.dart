@@ -9,9 +9,7 @@ import 'package:sulok/helper/local_storage_helper.dart';
 import 'package:sulok/screens/login/login_repo.dart';
 import 'package:sulok/screens/login/login_screen.dart';
 import 'package:sulok/screens/login/model/login_request.dart';
-import 'package:sulok/screens/login/model/login_teacher_respone.dart';
 import 'package:sulok/screens/mainteacher/main_teacer_screen.dart';
-
 import '../../helper/helper_functions.dart';
 import '../completestudent/complete_student_screen.dart';
 import '../mainstudentscreen/main_student_screen.dart';

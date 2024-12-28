@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:sulok/constant/app_colors.dart';
 import 'package:sulok/helper/custom/custom_button.dart';
 import 'package:sulok/helper/custom/custom_text.dart';
@@ -38,38 +40,106 @@ class StudentDetailsScreen extends StatelessWidget {
             children: [
               const CustomText(
                 'المعلومات الشخصية',
-                color: AppColors.greyDark,
-                size: 21,
+                color: Colors.black,
+                size: 22,
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(
                 height: 20,
               ),
-              Wrap(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                runSpacing: 20,
-                spacing: 20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  dataField('الاسم', student.name ?? ""),
-                  dataField('النقاط', student.points ?? ""),
-                  dataField('نسبة الإنجاز', student.progress ?? ""),
-                  dataField('البريد الالكتروني', student.email ?? ""),
-                  dataField('اسم الشيخ', student.sheikhName ?? ""),
-                  dataField('الرقم الجامعي', student.universityNumber ?? ""),
-                  dataField('إسم البرنامج الدراسي', student.course ?? ""),
-                  dataField('رقم الهاتف', student.phone ?? ""),
-                  dataField('تاريخ الميلاد', student.dateBirth ?? ""),
-                  dataField('الجنس', student.sex ?? ""),
-                  dataField('بلد الإقامة', student.residence ?? ""),
-                  dataField('الحالة الإجتماعيه', student.marital ?? ""),
-                  dataField('عدد الاولاد', student.numberChildren ?? ""),
-                  dataField('المستوى التعليمي', student.educational ?? ""),
-                  dataField(
-                      'هل درست دراسة شرعية', student.sheikhEducation ?? ""),
-                  dataField('هل لك شيخ في التربية والسلوك والتصوف',
-                      student.forensicStudies ?? ""),
+                  CircularPercentIndicator(
+                    radius: 60,
+                    percent: 1,
+                    lineWidth: 10,
+                    progressColor: AppColors.amberSecond,
+                    animation: true,
+                    animationDuration: 1000,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    center: Text(
+                      student.points ?? "0",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 22),
+                    ),
+                    footer: const Text(
+                      " النقاط",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  CircularPercentIndicator(
+                    radius: 60,
+                    percent: double.parse(student.progress ?? "0") / 100,
+                    lineWidth: 10,
+                    progressColor: AppColors.greenMain,
+                    animation: true,
+                    animationDuration: 1000,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    center: Text(
+                      "${student.progress ?? "0"}%",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 22),
+                    ),
+                    footer: const Text(
+                      "نسبة الإنجاز",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  DataField(label: 'الاسم', data: student.name ?? ""),
+                  DataField(
+                      label: 'البريد الالكتروني', data: student.email ?? ""),
+                  DataField(label: 'اسم الشيخ', data: student.sheikhName ?? ""),
+                  DataField(
+                      label: 'الرقم الجامعي',
+                      data: student.universityNumber ?? ""),
+                  DataField(
+                      label: 'إسم البرنامج الدراسي',
+                      data: student.course ?? ""),
+                  DataField(label: 'رقم الهاتف', data: student.phone ?? ""),
+                  DataField(
+                      label: 'تاريخ الميلاد', data: student.dateBirth ?? ""),
+                  DataField(label: 'الجنس', data: student.sex ?? ""),
+                  DataField(
+                      label: 'بلد الإقامة', data: student.residence ?? ""),
+                  DataField(
+                      label: 'الحالة الإجتماعيه', data: student.marital ?? ""),
+                  DataField(
+                      label: 'عدد الاولاد', data: student.numberChildren ?? ""),
+                  DataField(
+                      label: 'المستوى التعليمي',
+                      data: student.educational ?? ""),
+                  // DataField(label: 'النقاط', data: student.points ?? ""),
+                  // DataField(
+                  //     label: 'نسبة الإنجاز', data: student.progress ?? ""),
+                  DataField(
+                      label: 'هل درست دراسة شرعية',
+                      data: student.forensicStudies ?? ""),
+
+                  DataField(
+                      label: 'هل لك شيخ في التربية والسلوك والتصوف',
+                      data: student.sheikhEducation ?? ""),
+                  DataField(
+                      label: 'عدد المهمات',
+                      data: student.totaltasksalik.toString()),
+                  DataField(
+                      label: 'عدد المهمات المنجزة',
+                      data: student.totaltasksalikComplete.toString()),
+                  DataField(
+                      label: 'عدد المهمات الغير منجزة',
+                      data: student.totaltasksalikNew.toString()),
                 ],
               ),
               const SizedBox(
@@ -153,7 +223,7 @@ class StudentDetailsScreen extends StatelessWidget {
                                           controller: controller.messageTitle,
                                           hintText: 'عنوان الرسالة..',
                                           suffixIcon: const SizedBox(),
-                                          onchange: (v){
+                                          onchange: (v) {
                                             controller.update();
                                           },
                                         ),
@@ -162,7 +232,7 @@ class StudentDetailsScreen extends StatelessWidget {
                                               controller.myMessageController,
                                           hintText: ' الرسالة..',
                                           maxLines: 3,
-                                          onchange: (v){
+                                          onchange: (v) {
                                             controller.update();
                                           },
                                         ),
@@ -253,13 +323,25 @@ class StudentDetailsScreen extends StatelessWidget {
       ],
     );
   }
+}
 
-  dataField(String label, String data) {
+class DataField extends StatelessWidget {
+  final String label;
+  final String data;
+  const DataField({
+    super.key,
+    required this.label,
+    required this.data,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Visibility(
       visible: data.isNotEmpty,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: Container(
+          width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14), color: AppColors.white),
           child: Padding(
@@ -282,7 +364,7 @@ class StudentDetailsScreen extends StatelessWidget {
                     ),
                     CustomText(
                       label,
-                      color: AppColors.greyDark,
+                      color: Colors.black,
                       size: 17,
                       fontWeight: FontWeight.bold,
                     ),
@@ -291,8 +373,8 @@ class StudentDetailsScreen extends StatelessWidget {
                 CustomText(
                   data,
                   color: AppColors.greyDark.withOpacity(0.7),
-                  size: 12,
-                  fontWeight: FontWeight.normal,
+                  size: 14,
+                  fontWeight: FontWeight.w600,
                 ),
               ],
             ),

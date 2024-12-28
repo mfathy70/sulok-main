@@ -137,7 +137,10 @@ class LandingScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset(AppImages.fullLogo),
+                child: SvgPicture.asset(
+                  AppImages.fullLogo,
+                  height: Get.height / 2.4,
+                ),
               ),
               const Padding(
                 padding: EdgeInsets.all(8.0),

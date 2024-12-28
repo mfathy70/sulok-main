@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:sulok/helper/custom/custom_drop_down.dart';
 import 'package:sulok/helper/custom/custom_text_feild.dart';
 import 'package:sulok/screens/login/model/login_teacher_respone.dart';
+import 'package:sulok/screens/mainteacher/main_teacer_screen.dart';
 import 'package:sulok/screens/teacherprograms/add_program_controller.dart';
 import 'package:sulok/screens/teacherprograms/levels/stages/tasks/add_task_controller.dart';
 import '../../../../../constant/app_colors.dart';
@@ -26,6 +27,9 @@ class AddTaskScreen extends StatelessWidget {
           print("here ${con.isLinkWithNumber}");
           return WhiteScreen(
             title: 'مهمة جديدة',
+            onTapHome: () {
+              Get.offAll(Get.offAll(const MainTeacherScreen()));
+            },
             onTapBack: () {
               if (con.currentScreen == 2) {
                 con.currentScreen = 1;
@@ -65,7 +69,7 @@ class AddTaskScreen extends StatelessWidget {
                       child: CustomButton(
                         height: 65,
                         color: AppColors.greenMain,
-                        title: 'تعديل',
+                        title: 'حفظ',
                         pressed: () {
                           con.updateTask();
                         },

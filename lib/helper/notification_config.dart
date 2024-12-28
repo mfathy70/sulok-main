@@ -11,10 +11,7 @@ late AndroidNotificationChannel channel;
 
 bool isFlutterLocalNotificationsInitialized = false;
 
-
-
 initialFireBaseMessages() async {
-
   securePrint(PayloadData().toJson().toString());
   await FirebaseMessaging.instance.requestPermission(
     alert: true,
@@ -108,7 +105,7 @@ Future<void> handlePayLoad(String? payload) async {
   //     var mainController=Get.find<MainController>();
   //     mainController.checkLastNotification();
   //   }
-    ///TODO: Handel When Click
+  ///TODO: Handel When Click
   // }
 }
 
@@ -116,7 +113,6 @@ void showFlutterNotification(RemoteMessage message) {
   securePrint("NOTIFICATION THNEEBAT ${message.toMap().toString()}");
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
-  PayloadData payloadData = PayloadData.fromJson(message.data);
   if (notification != null && android != null && !kIsWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
@@ -150,14 +146,14 @@ class PayloadData {
   });
 
   factory PayloadData.fromJson(Map<String, dynamic> json) => PayloadData(
-    postId: json["post_id"],
-    action: json["action"],
-    clickAction: json["click_action"],
-  );
+        postId: json["post_id"],
+        action: json["action"],
+        clickAction: json["click_action"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "post_id": postId,
-    "action": action,
-    "click_action": clickAction,
-  };
+        "post_id": postId,
+        "action": action,
+        "click_action": clickAction,
+      };
 }

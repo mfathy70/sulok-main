@@ -12,6 +12,7 @@ class DefaultScreen extends StatelessWidget {
   final String? title;
   final GestureTapCallback? onTapBack;
   final GestureTapCallback? onRefresh;
+  final GestureTapCallback? onHome;
   final bool? resizeToAvoidBottomInset;
   final bool? hasBottom;
 
@@ -24,7 +25,8 @@ class DefaultScreen extends StatelessWidget {
       this.headerWidget,
       this.onTapBack,
       this.leading,
-      this.hasBottom});
+      this.hasBottom,
+      this.onHome});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,8 @@ class DefaultScreen extends StatelessWidget {
                       Visibility(
                         visible: onRefresh != null,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: onHome != null ? 0.0 : 8.0),
                           child: InkWell(
                             onTap: onRefresh,
                             child: Container(
@@ -75,6 +78,28 @@ class DefaultScreen extends StatelessWidget {
                                 padding: EdgeInsets.all(8.0),
                                 child: Icon(
                                   Icons.refresh,
+                                  color: AppColors.whiteGrey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: onHome != null,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: InkWell(
+                            onTap: onHome,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: AppColors.whiteGrey)),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.home_rounded,
                                   color: AppColors.whiteGrey,
                                 ),
                               ),

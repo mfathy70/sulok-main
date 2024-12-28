@@ -2,7 +2,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:sulok/helper/custom/custom_drop_down.dart';
 import 'package:sulok/helper/custom/custom_loading.dart';
@@ -12,8 +11,6 @@ import 'package:sulok/screens/completestudent/model/complete_student_request.dar
 import 'package:sulok/screens/login/login_controller.dart';
 import 'package:sulok/screens/login/login_screen.dart';
 import 'package:sulok/screens/login/model/student_response.dart';
-
-import '../../helper/countries_json.dart';
 import '../../helper/helper_functions.dart';
 import '../mainstudentscreen/main_student_screen.dart';
 import 'complete_data_repo.dart';

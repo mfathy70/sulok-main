@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../constant/app_colors.dart';
-import '../../constant/app_images.dart';
 
 class CustomDropdown extends StatefulWidget {
   final List<Item> listItems;
   final Item? selectedItem;
   final ValueChanged<Item>? onSelected;
-
 
   const CustomDropdown({
     super.key,

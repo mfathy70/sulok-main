@@ -403,20 +403,20 @@ class CompleteStudentScreen extends StatelessWidget {
                           title: 'حذف الحساب',
                           pressed: () {
                             Get.dialog(CupertinoAlertDialog(
-                              title: Text("حذف الحساب"),
+                              title: const Text("حذف الحساب"),
                               actions: [
                                 CupertinoDialogAction(
                                     onPressed: () {
                                       Get.back();
                                     },
-                                    child: Text("تراجع")),
+                                    child: const Text("تراجع")),
                                 CupertinoDialogAction(
                                     onPressed: () {
                                       controller.deleteAccount();
                                     },
-                                    child: Text("حذف")),
+                                    child: const Text("حذف")),
                               ],
-                              content: Text(
+                              content: const Text(
                                   "هل انت متاكد من اتمام عملية حذف الحساب ؟"),
                             ));
                           },
@@ -445,7 +445,6 @@ class CompleteStudentScreen extends StatelessWidget {
   }
 
   reportWidget(String name, String perc) {
-    print("name $name perc $perc");
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

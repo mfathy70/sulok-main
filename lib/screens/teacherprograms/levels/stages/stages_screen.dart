@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sulok/helper/custom/custom_button.dart';
+import 'package:sulok/screens/mainteacher/main_teacer_screen.dart';
 import 'package:sulok/screens/teacherprograms/levels/stages/add_stage_screen.dart';
 import 'package:sulok/screens/teacherprograms/levels/stages/tasks/tasks_screen.dart';
 
@@ -11,11 +12,16 @@ import '../../../login/model/login_teacher_respone.dart';
 import '../../add_program_controller.dart';
 import '../add_level_screen.dart';
 
-class StagesScreen extends StatelessWidget {
+class StagesScreen extends StatefulWidget {
   final Program level;
 
   const StagesScreen({super.key, required this.level});
 
+  @override
+  State<StagesScreen> createState() => _StagesScreenState();
+}
+
+class _StagesScreenState extends State<StagesScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddProgramController>(
@@ -23,9 +29,13 @@ class StagesScreen extends StatelessWidget {
         autoRemove: false,
         builder: (controller) {
           return DefaultScreen(
-              title: level.name ?? "",
-              onRefresh: (){
+              title: widget.level.name ?? "",
+              onRefresh: () {
                 controller.update();
+                setState(() {});
+              },
+              onHome: () {
+                Get.offAll(const MainTeacherScreen());
               },
               onTapBack: () {
                 controller.levelID = null;
@@ -142,7 +152,7 @@ class StagesScreen extends StatelessWidget {
                                     ),
                                     Expanded(
                                         child: CustomText(
-                                            'هل انت متاكد من حذف ${level.name ?? ""}')),
+                                            'هل انت متاكد من حذف ${widget.level.name ?? ""}')),
                                   ],
                                 ),
                                 actions: [
@@ -176,12 +186,12 @@ class StagesScreen extends StatelessWidget {
                       color: AppColors.greenMain,
                       title: 'تعديل المستوى',
                       pressed: () async {
-                        controller.levelName.text = level.name ?? "";
-                        controller.levelInfo.text = level.info ?? "";
+                        controller.levelName.text = widget.level.name ?? "";
+                        controller.levelInfo.text = widget.level.info ?? "";
 
                         Get.to(AddLevelScreen(
                             programID: controller.programID ?? 0,
-                            level: level));
+                            level: widget.level));
                       },
                     ),
                   ),

@@ -12,9 +12,14 @@ import '../login/model/login_teacher_respone.dart';
 import 'add_program_controller.dart';
 import 'add_program_screen.dart';
 
-class TeacherProgramsScreen extends StatelessWidget {
+class TeacherProgramsScreen extends StatefulWidget {
   const TeacherProgramsScreen({super.key});
 
+  @override
+  State<TeacherProgramsScreen> createState() => _TeacherProgramsScreenState();
+}
+
+class _TeacherProgramsScreenState extends State<TeacherProgramsScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddProgramController>(
@@ -23,8 +28,9 @@ class TeacherProgramsScreen extends StatelessWidget {
         builder: (controller) {
           return DefaultScreen(
               title: 'البرامج الرئيسية',
-              onRefresh: (){
+              onRefresh: () {
                 controller.update();
+                setState(() {});
               },
               onTapBack: () {
                 controller.programID = null;

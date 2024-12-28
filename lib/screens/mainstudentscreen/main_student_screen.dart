@@ -7,8 +7,8 @@ import 'package:sulok/helper/custom/custom_text.dart';
 import 'package:sulok/screens/completestudent/complete_student_screen.dart';
 import 'package:sulok/screens/login/model/student_response.dart';
 import 'package:sulok/screens/mainstudentscreen/main_student_screen_controller.dart';
+import 'package:sulok/screens/mainstudentscreen/student_main_repo.dart';
 import 'package:sulok/screens/mainstudentscreen/task_screen.dart';
-
 import '../../constant/app_colors.dart';
 import '../../constant/app_images.dart';
 import '../../helper/custom/custom_button.dart';
@@ -16,10 +16,18 @@ import '../../helper/custom/custom_text_feild.dart';
 import '../../helper/local_storage_helper.dart';
 import '../menu/menu_screen.dart';
 import '../studentnotification/student_notification_screen.dart';
-import 'displayprogram/program_details_screen.dart';
 
-class MainStudentScreen extends StatelessWidget {
+class MainStudentScreen extends StatefulWidget {
   const MainStudentScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainStudentScreen> createState() => _MainStudentScreenState();
+}
+
+class _MainStudentScreenState extends State<MainStudentScreen> {
+  String from = DateFormat('y-MM-d').format(DateTime.now());
+  String to =
+      DateFormat('y-MM-d').format(DateTime.now().add(const Duration(days: 1)));
 
   @override
   Widget build(BuildContext context) {
@@ -219,6 +227,15 @@ class MainStudentScreen extends StatelessWidget {
                                           onTap: () {
                                             controller.currentIndex =
                                                 controller.days.indexOf(day);
+                                            from = DateFormat('y-MM-d').format(
+                                                controller.days[
+                                                    controller.currentIndex]);
+                                            to = DateFormat('y-MM-d').format(
+                                                controller.days[
+                                                        controller.currentIndex]
+                                                    .add(const Duration(
+                                                        days: 1)));
+
                                             controller.update();
                                           },
                                           child: Container(
@@ -348,7 +365,9 @@ class MainStudentScreen extends StatelessWidget {
               }
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.update();
+                  setState(() {
+                    controller.update();
+                  });
                 },
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(
@@ -430,7 +449,8 @@ class MainStudentScreen extends StatelessWidget {
                             ],
                           ),
                           onDismissed: (v) {
-                            if (task?.iscount.toString() == '1') {
+                            if (task?.iscount.toString() == '1' ||
+                                task?.relatedCount != "0") {
                               TextEditingController valueController =
                                   TextEditingController();
                               Get.dialog(Column(
@@ -443,7 +463,7 @@ class MainStudentScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(30.0),
                                       child: Column(
                                         children: [
-                                          Text(
+                                          const Text(
                                               'هذه المهمه مرتبطه بعدد ادخل العدد'),
                                           const SizedBox(
                                             height: 30,
@@ -483,15 +503,15 @@ class MainStudentScreen extends StatelessWidget {
             });
       default:
         return FutureBuilder(
-            future: LocalStorageHelper.getStudentData(),
+            future: StudentMainRepo().getCompletedTasks(from, to),
             builder: (BuildContext context,
-                AsyncSnapshot<StudentResponse> snapshot) {
+                AsyncSnapshot<List<CompletedTask>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SizedBox(
                     height: Get.height,
                     child: const Center(child: CupertinoActivityIndicator()));
               }
-              if (snapshot.data?.programs?.isEmpty ?? true) {
+              if (snapshot.data?.isEmpty ?? true) {
                 return const Padding(
                   padding: EdgeInsets.all(30.0),
                   child: CustomText('لايوجد عناصر يمكن عرضها',
@@ -507,9 +527,9 @@ class MainStudentScreen extends StatelessWidget {
                 shrinkWrap: true,
                 // physics:
                 //     const NeverScrollableScrollPhysics(),
-                itemCount: snapshot.data?.programs?.length,
+                itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
-                  var program = snapshot.data?.programs?[index];
+                  var program = snapshot.data?[index];
                   return programWidget(program, controller);
                 },
               );
@@ -562,22 +582,24 @@ class MainStudentScreen extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      item?.isOpen = !item.isOpen;
+                      item.isOpen = !item.isOpen;
                       update(() {});
                     },
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.arrow_forward_ios_sharp,
+                        !item!.isOpen
+                            ? Icons.arrow_drop_down_rounded
+                            : Icons.arrow_drop_up_rounded,
                         color: AppColors.greyDark,
-                        size: 15,
+                        size: 30,
                       ),
                     ),
                   )
                 ],
               ),
               Visibility(
-                visible: item!.isOpen,
+                visible: item.isOpen,
                 child: Column(
                   children: [
                     Padding(
@@ -585,10 +607,14 @@ class MainStudentScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          info('مدة المهمه', item?.relatedTime, 'يوم'),
-                          info('كل يوم تكرار الذكر', item?.relatedCount, 'مرة'),
-                          info('وزن المهمة', item?.weight, '%'),
-                          info('درجة المهمة', item?.point, 'درجة'),
+                          info('مدة المهمه', item.relatedTime, 'يوم'),
+                          info('تكرار الذكر', item.relatedCount, 'مرة'),
+                          item.remainingCount.toString() != item.relatedCount
+                              ? info('العدد المتبقي',
+                                  item.remainingCount.toString(), 'مرة')
+                              : Container(),
+                          info('وزن المهمة', item.weight, '%'),
+                          info('درجة المهمة', item.point, 'درجة'),
                         ],
                       ),
                     ),
@@ -600,7 +626,8 @@ class MainStudentScreen extends StatelessWidget {
                           Expanded(
                             child: InkWell(
                               onTap: () {
-                                if (item?.iscount.toString() == '1') {
+                                if (item.iscount.toString() == '1' ||
+                                    item.relatedCount != "0") {
                                   TextEditingController valueController =
                                       TextEditingController();
                                   Get.dialog(Column(
@@ -632,8 +659,7 @@ class MainStudentScreen extends StatelessWidget {
                                                   pressed: () {
                                                     Get.back();
                                                     controller.complete(
-                                                        item?.id.toString() ??
-                                                            "",
+                                                        item.id.toString(),
                                                         count: valueController
                                                             .text);
                                                   })
@@ -663,30 +689,30 @@ class MainStudentScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                controller.unComplete(item.id.toString());
-                              },
-                              child: Container(
-                                color: AppColors.amberSecond,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: CustomText(
-                                      'تحديد المهمة كغير مكتملة',
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.bold,
-                                      size: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          // const SizedBox(
+                          //   width: 20,
+                          // ),
+                          // Expanded(
+                          //   child: InkWell(
+                          //     onTap: () {
+                          //       controller.unComplete(item.id.toString());
+                          //     },
+                          //     child: Container(
+                          //       color: AppColors.amberSecond,
+                          //       child: const Padding(
+                          //         padding: EdgeInsets.all(8.0),
+                          //         child: Center(
+                          //           child: CustomText(
+                          //             'تحديد المهمة كغير مكتملة',
+                          //             color: AppColors.white,
+                          //             fontWeight: FontWeight.bold,
+                          //             size: 12,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -700,63 +726,57 @@ class MainStudentScreen extends StatelessWidget {
     });
   }
 
-  Widget programWidget(Program? item, MainStudentScreenController controller) {
+  Widget programWidget(
+      CompletedTask? item, MainStudentScreenController controller) {
     return StatefulBuilder(builder: (context, update) {
-      return InkWell(
-        onTap: () {
-          Get.to(ProgramScreen(
-            program: item!,
-          ));
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.white,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        IntrinsicHeight(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 5,
-                              height: 60,
-                              color: AppColors.amberSecond,
-                            ),
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.white,
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      IntrinsicHeight(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 5,
+                            height: 60,
+                            color: AppColors.amberSecond,
                           ),
                         ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          item?.name ?? "",
+                          fontWeight: FontWeight.bold,
+                          size: 17,
+                          maxLines: 1,
+                        ),
+                        // CustomText(
+                        //   item?.info ?? "",
+                        //   fontWeight: FontWeight.normal,
+                        //   size: 12,
+                        //   maxLines: 2,
+                        // ),
                       ],
                     ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            item?.name ?? "",
-                            fontWeight: FontWeight.bold,
-                            size: 17,
-                            maxLines: 1,
-                          ),
-                          CustomText(
-                            item?.info ?? "",
-                            fontWeight: FontWeight.normal,
-                            size: 12,
-                            maxLines: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       );

@@ -9,9 +9,10 @@ class TeacherSendMessageController extends GetxController {
   TextEditingController myMessageController = TextEditingController();
   TextEditingController messageTitle = TextEditingController();
   TeacherMessagesRepo teacherMessagesRepo = TeacherMessagesRepo();
-  void sendMessage(String id) async {
+
+  Future<void> sendMessage(String id) async {
     //Get.back();
-    loading();
+    //loading();
     await teacherMessagesRepo.sendMessage({
       'name': myMessageController.text,
       'msg': myMessageController.text,
@@ -20,6 +21,6 @@ class TeacherSendMessageController extends GetxController {
     messageTitle.clear();
     myMessageController.clear();
     update();
-    closeLoading();
+    //closeLoading();
   }
 }

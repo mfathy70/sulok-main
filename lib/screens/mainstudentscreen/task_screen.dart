@@ -5,7 +5,6 @@ import 'package:sulok/helper/custom/default_screen.dart';
 import 'package:sulok/screens/login/model/student_response.dart';
 import 'package:sulok/screens/mainstudentscreen/main_student_screen_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 import '../../constant/app_colors.dart';
 import '../../helper/custom/custom_button.dart';
 import '../../helper/custom/custom_text_feild.dart';
@@ -25,7 +24,6 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
   @override
   void initState() {
     print(widget.task.relatedCount);
-    // TODO: implement initState
     if (widget.task.url?.isNotEmpty ?? false) {
       controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -73,8 +71,12 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         info('مدة المهمه', widget.task.relatedTime, 'يوم'),
-                        info('كل يوم تكرار الذكر', widget.task.relatedCount,
-                            'مرة'),
+                        info('تكرار الذكر', widget.task.relatedCount, 'مرة'),
+                        widget.task.remainingCount.toString() !=
+                                widget.task.relatedCount
+                            ? info('العدد المتبقي',
+                                widget.task.remainingCount.toString(), 'مرة')
+                            : Container(),
                         info('وزن المهمة', widget.task.weight, '%'),
                         info('درجة المهمة', widget.task.point, 'درجة'),
                       ],
@@ -123,7 +125,7 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
                                                   pressed: () {
                                                     Get.back();
                                                     controller.complete(
-                                                        widget.task?.id
+                                                        widget.task.id
                                                                 .toString() ??
                                                             "",
                                                         count: valueController
@@ -156,31 +158,31 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                controller
-                                    .unComplete(widget.task.id.toString());
-                              },
-                              child: Container(
-                                color: AppColors.amberSecond,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: CustomText(
-                                      'تحديد المهمة كغير مكتملة',
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.bold,
-                                      size: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          // const SizedBox(
+                          //   width: 20,
+                          // ),
+                          // Expanded(
+                          //   child: InkWell(
+                          //     onTap: () {
+                          //       controller
+                          //           .unComplete(widget.task.id.toString());
+                          //     },
+                          //     child: Container(
+                          //       color: AppColors.amberSecond,
+                          //       child: const Padding(
+                          //         padding: EdgeInsets.all(8.0),
+                          //         child: Center(
+                          //           child: CustomText(
+                          //             'تحديد المهمة كغير مكتملة',
+                          //             color: AppColors.white,
+                          //             fontWeight: FontWeight.bold,
+                          //             size: 12,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       );
                     }),
@@ -190,11 +192,14 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
                   ],
                 ),
                 if (controller != null)
-                  SizedBox(
-                      height: Get.height,
-                      child: WebViewWidget(
-                        controller: controller!,
-                      )),
+                  GestureDetector(
+                    onVerticalDragUpdate: (details) {},
+                    child: SizedBox(
+                        height: Get.height / 2.05,
+                        child: WebViewWidget(
+                          controller: controller!,
+                        )),
+                  ),
               ],
             ),
           ),

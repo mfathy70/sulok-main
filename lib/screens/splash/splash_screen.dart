@@ -51,7 +51,11 @@ class SplashScreen extends StatelessWidget {
                   ),
                   Align(
                       alignment: Alignment.center,
-                      child: SvgPicture.asset(AppImages.logo)),
+                      child: SvgPicture.asset(
+                        AppImages.logo,
+                        width: Get.width / 3,
+                        height: Get.height / 3,
+                      )),
                   const Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(

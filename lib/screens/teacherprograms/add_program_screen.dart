@@ -46,18 +46,18 @@ class AddProgramScreen extends StatelessWidget {
                   controller.addNewProgram();
                 },
               ),
-              if(program!=null)
-              Padding(
-                padding: const EdgeInsets.only(top:20.0),
-                child: CustomButton(
-                  height: 65,
-                  color: AppColors.greenMain,
-                  title: 'تعديل',
-                  pressed: () {
-                    controller.updateProgram(program!);
-                  },
+              if (program != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: CustomButton(
+                    height: 65,
+                    color: AppColors.greenMain,
+                    title: 'حفظ',
+                    pressed: () {
+                      controller.updateProgram(program!);
+                    },
+                  ),
                 ),
-              ),
             ],
           );
         }),

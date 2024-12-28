@@ -4,8 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sulok/constant/app_images.dart';
 import 'package:sulok/helper/custom/custom_text.dart';
+import 'package:sulok/screens/studentmessages/student_message_controller.dart';
 import 'package:sulok/screens/studentmessages/student_messages_screen.dart';
 import 'package:sulok/screens/studentnotification/student_notification_screen.dart';
+import 'package:sulok/screens/teachermessages/teacher_message_controller.dart';
 import 'package:sulok/screens/teachermessages/teacher_messages_screen.dart';
 import 'package:sulok/screens/teachernotification/teacher_notification_screen.dart';
 
@@ -155,18 +157,18 @@ class MenuScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Visibility(
-                                    visible: student!
-                                            .message?.messageNew?.isNotEmpty ??
-                                        false,
-                                    child: Container(
-                                      width: 10,
-                                      height: 10,
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.amberSecond),
-                                    ),
-                                  )
+                                  // Visibility(
+                                  //   visible: student!
+                                  //           .message?.messageNew?.isNotEmpty ??
+                                  //       false,
+                                  //   child: Container(
+                                  //     width: 10,
+                                  //     height: 10,
+                                  //     decoration: const BoxDecoration(
+                                  //         shape: BoxShape.circle,
+                                  //         color: AppColors.amberSecond),
+                                  //   ),
+                                  // )
                                 ],
                               ),
                             ),
@@ -376,22 +378,29 @@ class MenuScreen extends StatelessWidget {
                                 ));
                               },
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SvgPicture.asset(
-                                    AppImages.messages,
-                                    color: AppColors.whiteDark,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        AppImages.messages,
+                                        color: AppColors.whiteDark,
+                                      ),
+                                      const SizedBox(
+                                        width: 25,
+                                      ),
+                                      CustomText(
+                                        'الرسائل',
+                                        fontWeight: FontWeight.bold,
+                                        size: 16,
+                                        color: AppColors.whiteDark,
+                                      )
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    width: 25,
-                                  ),
-                                  CustomText(
-                                    'الرسائل',
-                                    fontWeight: FontWeight.bold,
-                                    size: 16,
-                                    color: AppColors.whiteDark,
-                                  )
                                 ],
                               ),
                             ),

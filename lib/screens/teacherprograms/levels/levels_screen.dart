@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sulok/helper/custom/custom_button.dart';
+import 'package:sulok/screens/mainteacher/main_teacer_screen.dart';
 import 'package:sulok/screens/teacherprograms/add_program_screen.dart';
 import '../../../constant/app_colors.dart';
 import '../../../helper/custom/custom_text.dart';
@@ -11,12 +12,17 @@ import '../add_program_controller.dart';
 import 'add_level_screen.dart';
 import 'stages/stages_screen.dart';
 
-class LevelsScreen extends StatelessWidget {
+class LevelsScreen extends StatefulWidget {
   final String title;
   final int? programID;
 
   const LevelsScreen({super.key, required this.title, this.programID});
 
+  @override
+  State<LevelsScreen> createState() => _LevelsScreenState();
+}
+
+class _LevelsScreenState extends State<LevelsScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddProgramController>(
@@ -24,9 +30,13 @@ class LevelsScreen extends StatelessWidget {
         autoRemove: false,
         builder: (controller) {
           return DefaultScreen(
-              title: 'مستويات $title',
-              onRefresh: (){
+              title: 'مستويات ${widget.title}',
+              onRefresh: () {
                 controller.update();
+                setState(() {});
+              },
+              onHome: () {
+                Get.offAll(const MainTeacherScreen());
               },
               onTapBack: () {
                 controller.programID = null;
@@ -118,7 +128,7 @@ class LevelsScreen extends StatelessWidget {
                                   controller.levelName.clear();
                                   controller.levelInfo.clear();
                                   Get.to(AddLevelScreen(
-                                    programID: programID ?? 0,
+                                    programID: widget.programID ?? 0,
                                   ));
                                 },
                               ),
@@ -152,7 +162,7 @@ class LevelsScreen extends StatelessWidget {
                                         ),
                                         Expanded(
                                             child: CustomText(
-                                                'هل انت متاكد من حذف $title')),
+                                                'هل انت متاكد من حذف ${widget.title}')),
                                       ],
                                     ),
                                     actions: [

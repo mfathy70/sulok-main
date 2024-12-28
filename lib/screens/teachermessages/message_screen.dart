@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -28,29 +27,14 @@ class TeacherMessageScreen extends StatefulWidget {
 
 class _TeacherMessageScreenState extends State<TeacherMessageScreen> {
   late LoginTeacherResponse shi5Data;
-  final StreamController<List<Shi5MsgResponse>> _controllerMsg =
-      StreamController<List<Shi5MsgResponse>>.broadcast();
+  final TeacherMessagesRepo repo = TeacherMessagesRepo();
   final scrollController = ScrollController();
   late List<Shi5MsgResponse> msgs;
 
   @override
   void initState() {
     super.initState();
-    getMsg();
     getData();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controllerMsg.close();
-  }
-
-  void getMsg() async {
-    final TeacherMessagesRepo repo = TeacherMessagesRepo();
-    msgs = await repo.getAllMsgShi5(
-        widget.messageData.cityhallId.toString(), widget.messageData.from);
-    _controllerMsg.add(msgs);
   }
 
   void getData() async {
@@ -103,6 +87,28 @@ class _TeacherMessageScreenState extends State<TeacherMessageScreen> {
                           visible: true,
                           child: InkWell(
                             onTap: () {
+                              setState(() {});
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: AppColors.whiteGrey)),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.refresh,
+                                  color: AppColors.whiteGrey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Visibility(
+                          visible: true,
+                          child: InkWell(
+                            onTap: () {
                               Get.back();
                             },
                             child: Container(
@@ -132,23 +138,26 @@ class _TeacherMessageScreenState extends State<TeacherMessageScreen> {
                 child: GetBuilder<TeacherSendMessageController>(
                     init: TeacherSendMessageController(),
                     builder: (controller) {
-                      return StreamBuilder<List<Shi5MsgResponse>>(
-                          stream: _controllerMsg.stream,
+                      return FutureBuilder<List<Shi5MsgResponse>>(
+                          future: repo.getAllMsgShi5(
+                              widget.messageData.cityhallId.toString(),
+                              widget.messageData.from),
                           initialData: const [],
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return const Center(
-                                  child: CircularProgressIndicator(
-                                color: AppColors.greenMain,
-                              ));
+                                child: CircularProgressIndicator(
+                                  color: AppColors.greenMain,
+                                ),
+                              );
                             } else if (snapshot.hasError) {
                               return const Text('Error loading messages');
                             } else if (!snapshot.hasData ||
                                 snapshot.data!.isEmpty) {
                               return const Text('No messages found');
                             } else {
-                              List<Shi5MsgResponse> msgs = snapshot.data!;
+                              msgs = snapshot.data!;
                               return Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                 child: ShaderMask(
@@ -184,8 +193,7 @@ class _TeacherMessageScreenState extends State<TeacherMessageScreen> {
                                             msg: msg.msg,
                                             createdAt: msg.createdAt,
                                             from: msg.from),
-                                        msg.from ==
-                                            shi5Data.info?.id.toString(),
+                                        msg.status == "sent",
                                       );
                                     },
                                   ),
@@ -227,22 +235,20 @@ class _TeacherMessageScreenState extends State<TeacherMessageScreen> {
                                       FocusManager.instance.primaryFocus!
                                           .unfocus();
                                     }
-                                    controller.sendMessage(
+                                    await controller.sendMessage(
                                         widget.messageData.salikId.toString());
-                                    msgs.insert(
-                                      0,
-                                      Shi5MsgResponse(
-                                        name: "User",
-                                        from: shi5Data.info?.id.toString(),
-                                        to: widget.messageData.salikId,
-                                        msg:
-                                            controller.myMessageController.text,
-                                        createdAt: DateTime.now(),
-                                      ),
-                                    );
-                                    setState(() {
-                                      _controllerMsg.sink.add(msgs);
-                                    });
+                                    // msgs.insert(
+                                    //   0,
+                                    //   Shi5MsgResponse(
+                                    //     name: "User",
+                                    //     from: shi5Data.info?.id.toString(),
+                                    //     to: widget.messageData.salikId,
+                                    //     msg:
+                                    //         controller.myMessageController.text,
+                                    //     createdAt: DateTime.now(),
+                                    //   ),
+                                    // );
+                                    //setState(() {});
                                   },
                                   child: Container(
                                       decoration: const BoxDecoration(

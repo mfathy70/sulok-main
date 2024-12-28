@@ -354,6 +354,9 @@ class Student {
   String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
+  int? totaltasksalik;
+  int? totaltasksalikComplete;
+  int? totaltasksalikNew;
 
   Student({
     this.id,
@@ -381,6 +384,9 @@ class Student {
     this.status,
     this.createdAt,
     this.updatedAt,
+    this.totaltasksalik,
+    this.totaltasksalikComplete,
+    this.totaltasksalikNew,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) => Student(
@@ -413,6 +419,9 @@ class Student {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        totaltasksalik: json["totaltasksalik"],
+        totaltasksalikComplete: json["totaltasksalik_complete"],
+        totaltasksalikNew: json["totaltasksalik_new"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -441,6 +450,9 @@ class Student {
         "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "totaltasksalik": totaltasksalik,
+        "totaltasksalik_complete": totaltasksalikComplete,
+        "totaltasksalik_new": totaltasksalikNew,
       };
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sulok/helper/custom/custom_button.dart';
 import 'package:sulok/screens/mainstudentscreen/task_screen.dart';
+import 'package:sulok/screens/mainteacher/main_teacer_screen.dart';
 import 'package:sulok/screens/teacherprograms/levels/stages/add_stage_screen.dart';
 
 import '../../../../../constant/app_colors.dart';
@@ -11,11 +12,16 @@ import '../../../../login/model/login_teacher_respone.dart';
 import '../../../add_program_controller.dart';
 import 'add_task_screen.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
   final Program stage;
 
   const TasksScreen({super.key, required this.stage});
 
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AddProgramController>(
@@ -23,9 +29,13 @@ class TasksScreen extends StatelessWidget {
         autoRemove: false,
         builder: (controller) {
           return DefaultScreen(
-              title: stage.name ?? "",
+              title: widget.stage.name ?? "",
               onRefresh: () {
                 controller.update();
+                setState(() {});
+              },
+              onHome: () {
+                Get.offAll(const MainTeacherScreen());
               },
               onTapBack: () {
                 controller.stageID = null;
@@ -216,7 +226,7 @@ class TasksScreen extends StatelessWidget {
                                     ),
                                     Expanded(
                                         child: CustomText(
-                                            'هل انت متاكد من حذف ${stage.name ?? ""}')),
+                                            'هل انت متاكد من حذف ${widget.stage.name ?? ""}')),
                                   ],
                                 ),
                                 actions: [
@@ -250,10 +260,10 @@ class TasksScreen extends StatelessWidget {
                       color: AppColors.greenMain,
                       title: 'تعديل المرحلة',
                       pressed: () {
-                        controller.stageName.text = stage.name ?? "";
-                        controller.stageInfo.text = stage.info ?? "";
+                        controller.stageName.text = widget.stage.name ?? "";
+                        controller.stageInfo.text = widget.stage.info ?? "";
                         Get.to(AddStageScreen(
-                          stage: stage,
+                          stage: widget.stage,
                         ));
                       },
                     ),

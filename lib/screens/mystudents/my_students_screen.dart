@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sulok/constant/app_colors.dart';
@@ -43,6 +44,27 @@ class MyStudentScreen extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           var item = teacher.data?.salik?.active?[index];
                           return Dismissible(
+                              confirmDismiss: (direction) {
+                                return Get.dialog(CupertinoAlertDialog(
+                                  title: const Text("حذف الحساب"),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        child: const Text("تراجع")),
+                                    CupertinoDialogAction(
+                                        onPressed: () {
+                                          controller.deActiveStudent(
+                                              item?.id.toString() ?? "");
+                                          Get.back();
+                                        },
+                                        child: const Text("حذف")),
+                                  ],
+                                  content: const Text(
+                                      "هل انت متاكد من اتمام عملية حذف حساب السالك ؟"),
+                                ));
+                              },
                               background: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -78,10 +100,6 @@ class MyStudentScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              onDismissed: (v) {
-                                controller
-                                    .deActiveStudent(item?.id.toString() ?? "");
-                              },
                               key: Key(item?.id.toString() ?? ''),
                               child:
                                   studentCar(item, controller, pending: false));
@@ -127,9 +145,9 @@ class MyStudentScreen extends StatelessWidget {
 
   studentCar(Student? item, MyStudentsController controller, {bool? pending}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom:8.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           Get.to(StudentDetailsScreen(student: item!));
         },
         child: Container(
@@ -188,13 +206,14 @@ class MyStudentScreen extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-                                controller
-                                    .deActiveStudent(item?.id.toString() ?? '0');
+                                controller.deActiveStudent(
+                                    item?.id.toString() ?? '0');
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: AppColors.greyDark)),
+                                    border:
+                                        Border.all(color: AppColors.greyDark)),
                                 child: const Padding(
                                   padding: EdgeInsets.all(3.0),
                                   child: Icon(Icons.clear),
@@ -212,8 +231,8 @@ class MyStudentScreen extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border:
-                                        Border.all(color: AppColors.amberSecond)),
+                                    border: Border.all(
+                                        color: AppColors.amberSecond)),
                                 child: const Padding(
                                   padding: EdgeInsets.all(3.0),
                                   child: Icon(

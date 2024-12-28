@@ -6,7 +6,6 @@ import 'package:sulok/constant/app_images.dart';
 import 'package:sulok/constant/const_var.dart';
 import 'package:sulok/helper/custom/default_screen.dart';
 import 'package:sulok/screens/login/model/login_teacher_respone.dart';
-import 'package:sulok/screens/login/model/messages_response.dart';
 import 'package:sulok/screens/login/model/shi5_messages_response.dart';
 import 'package:sulok/screens/teachermessages/teacher_message_controller.dart';
 import 'package:sulok/screens/teachermessages/teacher_messages_repo.dart';
@@ -15,11 +14,16 @@ import '../../helper/custom/custom_text.dart';
 import '../login/model/student_response.dart';
 import 'message_screen.dart';
 
-class TeacherMessagesScreen extends StatelessWidget {
+class TeacherMessagesScreen extends StatefulWidget {
   final LoginTeacherResponse teacher;
   const TeacherMessagesScreen({Key? key, required this.teacher})
       : super(key: key);
 
+  @override
+  State<TeacherMessagesScreen> createState() => _TeacherMessagesScreenState();
+}
+
+class _TeacherMessagesScreenState extends State<TeacherMessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultScreen(
@@ -73,7 +77,7 @@ class TeacherMessagesScreen extends StatelessWidget {
             builder: (controller) {
               return FutureBuilder(
                   future: TeacherMessagesRepo()
-                      .getAllMsgShi5(teacher.info?.id.toString(), null),
+                      .getAllMsgShi5(widget.teacher.info?.id.toString(), null),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Shi5MsgResponse>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -102,14 +106,18 @@ class TeacherMessagesScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                   size: 30),
                             ),
-                          ListView.builder(
-                            padding: const EdgeInsets.all(0),
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: filteredList.length,
-                            itemBuilder: (context, index) {
-                              return cardWidget(filteredList[index],
-                                  controller: controller);
+                          RefreshIndicator(
+                            child: ListView.builder(
+                              padding: const EdgeInsets.all(0),
+                              shrinkWrap: true,
+                              itemCount: filteredList.length,
+                              itemBuilder: (context, index) {
+                                return cardWidget(filteredList[index],
+                                    controller: controller);
+                              },
+                            ),
+                            onRefresh: () async {
+                              setState(() {});
                             },
                           ),
                         ],

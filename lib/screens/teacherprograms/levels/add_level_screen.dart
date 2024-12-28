@@ -11,14 +11,15 @@ import '../../../helper/custom/white_screen.dart';
 
 class AddLevelScreen extends StatelessWidget {
   final int programID;
-  final Program ?level;
+  final Program? level;
 
-  const AddLevelScreen({Key? key, required this.programID,this.level}) : super(key: key);
+  const AddLevelScreen({Key? key, required this.programID, this.level})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return WhiteScreen(
-      title: level?.name??'مستوى جديد',
+      title: level?.name ?? 'مستوى جديد',
       onTapBack: () {
         Get.back();
       },
@@ -47,15 +48,15 @@ class AddLevelScreen extends StatelessWidget {
                   controller.addNewLevel(programID);
                 },
               ),
-              if(level!=null)
+              if (level != null)
                 Padding(
-                  padding: const EdgeInsets.only(top:20.0),
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: CustomButton(
                     height: 65,
                     color: AppColors.greenMain,
-                    title: 'تعديل',
+                    title: 'حفظ',
                     pressed: () {
-                      controller.updateLevel(programID,level!.id!);
+                      controller.updateLevel(programID, level!.id!);
                     },
                   ),
                 ),

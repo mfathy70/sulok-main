@@ -35,7 +35,7 @@ class ProgramScreen extends StatelessWidget {
                   size: 12,
                 ),
                 Visibility(
-                  visible: program.level?.isNotEmpty??false,
+                  visible: program.level?.isNotEmpty ?? false,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +43,10 @@ class ProgramScreen extends StatelessWidget {
                       const SizedBox(
                         height: 30,
                       ),
-                      const CustomText("المستويات", color: AppColors.greyDark, size: 20,fontWeight: FontWeight.bold),
+                      const CustomText("المستويات",
+                          color: AppColors.greyDark,
+                          size: 20,
+                          fontWeight: FontWeight.bold),
                       const SizedBox(
                         height: 30,
                       ),

@@ -10,13 +10,15 @@ class WhiteScreen extends StatelessWidget {
   final Widget? leading;
   final String? title;
   final GestureTapCallback? onTapBack;
+  final GestureTapCallback? onTapHome;
 
   const WhiteScreen(
       {super.key,
-        required this.child,
-        this.title,
-        this.onTapBack,
-        this.leading});
+      required this.child,
+      this.title,
+      this.onTapBack,
+      this.leading,
+      this.onTapHome});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,6 @@ class WhiteScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Visibility(
                 visible: title != null,
                 child: Padding(
@@ -40,15 +41,40 @@ class WhiteScreen extends StatelessWidget {
                       Expanded(
                         child: Row(
                           children: [
-                            Visibility(visible: leading != null, child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal  :8.0),
-                              child: leading??const SizedBox(),
-                            )),
+                            Visibility(
+                                visible: leading != null,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: leading ?? const SizedBox(),
+                                )),
                             Expanded(
                               child: CustomText(title ?? "",
                                   color: AppColors.greenMain, size: 25),
                             ),
                           ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: onTapHome != null,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: InkWell(
+                            onTap: onTapHome,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: AppColors.greenMain)),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.home_rounded,
+                                  color: AppColors.greenMain,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       Visibility(

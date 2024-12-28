@@ -18,4 +18,6 @@ class ApiUrl {
   static const deleteAccount = '${apiUrl}deletemyaccount';
   static const getAllMsg = '${apiUrl}getAllMessagesSalik';
   static const getAllMsgShi5 = '${apiUrl}getAllMessagesByCityhall';
+  static const getCmpletedTasks = '${apiUrl}getAllTasksSalik';
+  static const updateTeacherData = '${apiUrl}update-she5-data';
 }

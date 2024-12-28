@@ -10,7 +10,7 @@ class SendMessageController extends GetxController {
   TextEditingController messageTitle = TextEditingController();
   MessagesRepo studentMessagesRepo = MessagesRepo();
 
-  void sendMessage(String id) async {
+  Future<void> sendMessage(String id) async {
     //Get.back();
     //loading();
     // myMessage = MessageData(

@@ -56,7 +56,7 @@ class AddProgramController extends GetxController {
   }
 
   addNewProgram() async {
-    if (programName.text.isNotEmpty && programInfo.text.isNotEmpty) {
+    if (programName.text.isNotEmpty) {
       loading();
       AddResponse addResponse = await addRepo.addProgram(
           AddProgramRequest(name: programName.text, info: programInfo.text));
@@ -77,7 +77,7 @@ class AddProgramController extends GetxController {
   }
 
   updateProgram(Program program) async {
-    if (programName.text.isNotEmpty && programInfo.text.isNotEmpty) {
+    if (programName.text.isNotEmpty) {
       loading();
       AddResponse addResponse = await addRepo.updateProgram(
           UpdateProgramRequest(
@@ -101,7 +101,7 @@ class AddProgramController extends GetxController {
   }
 
   addNewLevel(int programID) async {
-    if (levelName.text.isNotEmpty && levelInfo.text.isNotEmpty) {
+    if (levelName.text.isNotEmpty) {
       loading();
       AddResponse addResponse = await addRepo.addLevel(AddLevelRequest(
           name: levelName.text,
@@ -125,7 +125,7 @@ class AddProgramController extends GetxController {
   }
 
   updateLevel(int programID, int levelId) async {
-    if (levelName.text.isNotEmpty && levelInfo.text.isNotEmpty) {
+    if (levelName.text.isNotEmpty) {
       loading();
       AddResponse addResponse = await addRepo.updateLevel(UpdateLevelRequest(
           name: levelName.text,
@@ -150,7 +150,7 @@ class AddProgramController extends GetxController {
   }
 
   addNewStage() async {
-    if (stageName.text.isNotEmpty && stageInfo.text.isNotEmpty) {
+    if (stageName.text.isNotEmpty) {
       loading();
       AddResponse addResponse = await addRepo.addStage(AddStageRequest(
           name: stageName.text,
@@ -173,7 +173,7 @@ class AddProgramController extends GetxController {
   }
 
   updateStage(int stageId) async {
-    if (stageName.text.isNotEmpty && stageInfo.text.isNotEmpty) {
+    if (stageName.text.isNotEmpty) {
       loading();
       AddResponse addResponse = await addRepo.updateStage(UpdateStageRequest(
           name: stageName.text,

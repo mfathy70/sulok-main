@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -24,28 +23,14 @@ class StudentMessagesScreen extends StatefulWidget {
 
 class _StudentMessagesScreenState extends State<StudentMessagesScreen> {
   late StudentResponse studentData;
-  final StreamController<List<MsgResponse>> _controllerMsg =
-      StreamController<List<MsgResponse>>.broadcast();
+  final MessagesRepo repo = MessagesRepo();
   final scrollController = ScrollController();
   late List<MsgResponse> msgs;
 
   @override
   void initState() {
     super.initState();
-    getMsg();
     getData();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controllerMsg.close();
-  }
-
-  void getMsg() async {
-    final MessagesRepo repo = MessagesRepo();
-    msgs = await repo.getAllMsg();
-    _controllerMsg.add(msgs);
   }
 
   void getData() async {
@@ -96,6 +81,28 @@ class _StudentMessagesScreenState extends State<StudentMessagesScreen> {
                           visible: true,
                           child: InkWell(
                             onTap: () {
+                              setState(() {});
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: AppColors.whiteGrey)),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.refresh_rounded,
+                                  color: AppColors.whiteGrey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Visibility(
+                          visible: true,
+                          child: InkWell(
+                            onTap: () {
                               Get.back();
                             },
                             child: Container(
@@ -125,8 +132,8 @@ class _StudentMessagesScreenState extends State<StudentMessagesScreen> {
                 child: GetBuilder<StudentMessagesController>(
                     init: StudentMessagesController(),
                     builder: (controller) {
-                      return StreamBuilder<List<MsgResponse>>(
-                          stream: _controllerMsg.stream,
+                      return FutureBuilder<List<MsgResponse>>(
+                          future: repo.getAllMsg(),
                           initialData: const [],
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
@@ -141,7 +148,7 @@ class _StudentMessagesScreenState extends State<StudentMessagesScreen> {
                                 snapshot.data!.isEmpty) {
                               return const Text('No messages found');
                             } else {
-                              List<MsgResponse> msgs = snapshot.data!;
+                              msgs = snapshot.data!;
                               return Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                 child: ShaderMask(
@@ -177,8 +184,7 @@ class _StudentMessagesScreenState extends State<StudentMessagesScreen> {
                                             msg: msg.msg,
                                             createdAt: msg.createdAt,
                                             from: msg.from),
-                                        msg.from ==
-                                            studentData.profile?.id.toString(),
+                                        msg.status == "sent",
                                       );
                                     },
                                   ),
@@ -220,23 +226,21 @@ class _StudentMessagesScreenState extends State<StudentMessagesScreen> {
                                       FocusManager.instance.primaryFocus!
                                           .unfocus();
                                     }
-                                    controller.sendMessage(
+                                    await controller.sendMessage(
                                         studentData.profile!.shi5Id.toString());
-                                    msgs.insert(
-                                      0,
-                                      MsgResponse(
-                                        name: "User",
-                                        from:
-                                            studentData.profile?.id.toString(),
-                                        to: studentData.profile?.shi5Id,
-                                        msg:
-                                            controller.myMessageController.text,
-                                        createdAt: DateTime.now(),
-                                      ),
-                                    );
-                                    setState(() {
-                                      _controllerMsg.sink.add(msgs);
-                                    });
+                                    // msgs.insert(
+                                    //   0,
+                                    //   MsgResponse(
+                                    //     name: "User",
+                                    //     from:
+                                    //         studentData.profile?.id.toString(),
+                                    //     to: studentData.profile?.shi5Id,
+                                    //     msg:
+                                    //         controller.myMessageController.text,
+                                    //     createdAt: DateTime.now(),
+                                    //   ),
+                                    // );
+                                    setState(() {});
                                   },
                                   child: Container(
                                       decoration: const BoxDecoration(

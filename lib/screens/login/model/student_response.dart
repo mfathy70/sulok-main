@@ -386,34 +386,35 @@ class Task {
   String? point;
   String? status;
   bool isOpen = false;
+  int? remainingCount;
 
-  Task({
-    this.id,
-    this.name,
-    this.info,
-    this.url,
-    this.relatedCount,
-    this.iscount,
-    this.relatedTime,
-    this.mustContinuous,
-    this.weight,
-    this.point,
-    this.status,
-  });
+  Task(
+      {this.id,
+      this.name,
+      this.info,
+      this.url,
+      this.relatedCount,
+      this.iscount,
+      this.relatedTime,
+      this.mustContinuous,
+      this.weight,
+      this.point,
+      this.status,
+      this.remainingCount});
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
-        id: json["id"],
-        iscount: json["iscount"],
-        name: json["name"],
-        info: json["info"],
-        url: json["url"],
-        relatedCount: json["relatedCount"],
-        relatedTime: json["relatedTime"],
-        mustContinuous: json["mustContinuous"],
-        weight: json["weight"],
-        point: json["point"],
-        status: json["status"],
-      );
+      id: json["id"],
+      iscount: json["iscount"],
+      name: json["name"],
+      info: json["info"],
+      url: json["url"],
+      relatedCount: json["relatedCount"],
+      relatedTime: json["relatedTime"],
+      mustContinuous: json["mustContinuous"],
+      weight: json["weight"],
+      point: json["point"],
+      status: json["status"],
+      remainingCount: json["remaining_count"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -427,6 +428,88 @@ class Task {
         "weight": weight,
         "point": point,
         "status": status,
+        "remaining_count": remainingCount,
+      };
+}
+
+class CompletedTask {
+  int? id;
+  String? name;
+  String? sync;
+  DateTime? startfrom;
+  String? reminder;
+  String? days;
+  String? count;
+  String? idTask;
+  String? idSalik;
+  int? cityhallId;
+  String? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? iscount;
+  DateTime? updatedIn;
+
+  CompletedTask({
+    this.id,
+    this.name,
+    this.sync,
+    this.startfrom,
+    this.reminder,
+    this.days,
+    this.count,
+    this.idTask,
+    this.idSalik,
+    this.cityhallId,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.iscount,
+    this.updatedIn,
+  });
+
+  factory CompletedTask.fromJson(Map<String, dynamic> json) => CompletedTask(
+        id: json["id"],
+        name: json["name"],
+        sync: json["sync"],
+        startfrom: json["startfrom"] == null
+            ? null
+            : DateTime.parse(json["startfrom"]),
+        reminder: json["reminder"],
+        days: json["days"],
+        count: json["count"],
+        idTask: json["id_task"],
+        idSalik: json["id_salik"],
+        cityhallId: json["cityhall_id"],
+        status: json["status"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        iscount: json["iscount"],
+        updatedIn: json["updated_in"] == null
+            ? null
+            : DateTime.parse(json["updated_in"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "sync": sync,
+        "startfrom":
+            "${startfrom!.year.toString().padLeft(4, '0')}-${startfrom!.month.toString().padLeft(2, '0')}-${startfrom!.day.toString().padLeft(2, '0')}",
+        "reminder": reminder,
+        "days": days,
+        "count": count,
+        "id_task": idTask,
+        "id_salik": idSalik,
+        "cityhall_id": cityhallId,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "iscount": iscount,
+        "updated_in": updatedIn?.toIso8601String(),
       };
 }
 

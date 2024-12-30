@@ -93,6 +93,7 @@ class AddRepo {
       try {
         final response =
             await BaseAPI.post(ApiUrl.saveTask, addTaskRequest.toJson());
+        print(addTaskRequest.toJson());
         var addResponse = AddResponse.fromJson(response);
         return addResponse;
       } catch (e) {

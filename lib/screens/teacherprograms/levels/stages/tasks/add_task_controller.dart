@@ -60,6 +60,9 @@ class AddTaskController extends GetxController {
   //reminder
   bool reminder = false;
 
+  //isPermanent
+  bool isPermanent = false;
+
   //Salwat
   List<AlSalwat> mainSalawat = [];
   List<AlSalwat> alSalwatList = [
@@ -132,6 +135,9 @@ class AddTaskController extends GetxController {
       continuous = task.mustContinuous == "0" ? false : true;
 
       reminder = task.reminder?.isNotEmpty ?? false;
+
+      isPermanent = task.isPermanent == 0 ? false : true;
+
       sliderWight = double.tryParse(task.weight ?? '0') ?? 0;
       grades = int.tryParse(task.point ?? '0') ?? 0;
       update();
@@ -244,6 +250,7 @@ class AddTaskController extends GetxController {
       prayer: mainSalawat.map((e) => e.toJson()).toList().toString(),
       relatedCount: numberIsLinked.toString(),
       relatedTime: timeIsLinked.toString(),
+      isPermanent: isPermanent ? '1' : '0',
     );
     var response = await addRepo.addTask(addTaskRequest);
     await LoginRepo().refreshTeacherData();
@@ -271,6 +278,7 @@ class AddTaskController extends GetxController {
       mustContinuous: continuous ? '1' : '0',
       weight: sliderWight.toString(),
       reminder: reminder ? '1' : '0',
+      isPermanent: isPermanent ? '1' : '0',
       point: grades.toString(),
       stageId: Get.find<AddProgramController>().stageID.toString(),
       prayer: mainSalawat.map((e) => e.toJson()).toList().toString(),

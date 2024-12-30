@@ -24,7 +24,6 @@ class AddTaskScreen extends StatelessWidget {
     return GetBuilder<AddTaskController>(
         init: AddTaskController(task: task),
         builder: (con) {
-          print("here ${con.isLinkWithNumber}");
           return WhiteScreen(
             title: 'مهمة جديدة',
             onTapHome: () {
@@ -84,7 +83,6 @@ class AddTaskScreen extends StatelessWidget {
   }
 
   Widget firstScreen(AddTaskController con) {
-    print("here ${con.isLinkWithNumber}");
     return Column(
       children: [
         CustomTextField(
@@ -281,6 +279,27 @@ class AddTaskScreen extends StatelessWidget {
         ),
         const Divider(
           color: AppColors.grey,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const CustomText(
+              "مهمة ثابتة",
+              color: AppColors.greyDark,
+              fontWeight: FontWeight.bold,
+            ),
+            CupertinoSwitch(
+              value: con.isPermanent,
+              onChanged: (v) {
+                con.isPermanent = v;
+                con.update();
+              },
+              activeColor: AppColors.amberSecond,
+            )
+          ],
         ),
       ],
     );

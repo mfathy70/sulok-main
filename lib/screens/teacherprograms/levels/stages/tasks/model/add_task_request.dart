@@ -27,6 +27,7 @@ class AddTaskRequest {
   String? point;
   String? stageId;
   String? token;
+  String? isPermanent;
 
   AddTaskRequest({
     this.name,
@@ -46,6 +47,7 @@ class AddTaskRequest {
     this.point,
     this.stageId,
     this.token,
+    this.isPermanent,
   });
 
   factory AddTaskRequest.fromJson(Map<String, dynamic> json) => AddTaskRequest(
@@ -66,6 +68,7 @@ class AddTaskRequest {
         point: json["point"],
         stageId: json["stage_id"],
         token: json["token"],
+        isPermanent: json["isPermanent"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -86,6 +89,7 @@ class AddTaskRequest {
         "point": point,
         "stage_id": stageId,
         "token": token,
+        "isPermanent": isPermanent,
       };
 }
 
@@ -108,27 +112,28 @@ class UpdateTaskRequest {
   String? stageId;
   String? token;
   String? id;
+  String? isPermanent;
 
-  UpdateTaskRequest({
-    this.id,
-    this.name,
-    this.info,
-    this.url,
-    this.startCondition,
-    this.startCompletion,
-    this.endCondition,
-    this.endCompletion,
-    // this.duration,
-    this.relatedCount,
-    this.relatedTime,
-    this.mustContinuous,
-    this.reminder,
-    this.prayer,
-    this.weight,
-    this.point,
-    this.stageId,
-    this.token,
-  });
+  UpdateTaskRequest(
+      {this.id,
+      this.name,
+      this.info,
+      this.url,
+      this.startCondition,
+      this.startCompletion,
+      this.endCondition,
+      this.endCompletion,
+      // this.duration,
+      this.relatedCount,
+      this.relatedTime,
+      this.mustContinuous,
+      this.reminder,
+      this.prayer,
+      this.weight,
+      this.point,
+      this.stageId,
+      this.token,
+      this.isPermanent});
 
   factory UpdateTaskRequest.fromJson(Map<String, dynamic> json) =>
       UpdateTaskRequest(
@@ -150,6 +155,7 @@ class UpdateTaskRequest {
         point: json["point"],
         stageId: json["stage_id"],
         token: json["token"],
+        isPermanent: json["isPermanent"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -171,5 +177,6 @@ class UpdateTaskRequest {
         "point": point,
         "stage_id": stageId,
         "token": token,
+        "isPermanent": isPermanent,
       };
 }

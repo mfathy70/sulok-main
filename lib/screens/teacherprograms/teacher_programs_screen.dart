@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sulok/helper/custom/custom_button.dart';
 import 'package:sulok/screens/teacherprograms/levels/levels_screen.dart';
-
 import '../../constant/app_colors.dart';
-import '../../constant/const_var.dart';
 import '../../helper/custom/custom_text.dart';
 import '../../helper/custom/default_screen.dart';
 import '../../helper/local_storage_helper.dart';

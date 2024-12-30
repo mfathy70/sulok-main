@@ -217,6 +217,7 @@ class Task {
   String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
+  int? isPermanent;
 
   Task({
     this.id,
@@ -241,6 +242,7 @@ class Task {
     this.status,
     this.createdAt,
     this.updatedAt,
+    this.isPermanent,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
@@ -270,6 +272,7 @@ class Task {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        isPermanent: json["isPermanent"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -295,6 +298,7 @@ class Task {
         "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "isPermanent": isPermanent,
       };
 }
 

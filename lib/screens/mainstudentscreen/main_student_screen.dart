@@ -377,125 +377,128 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                   itemCount: snapshot.data?.tasks?.length,
                   itemBuilder: (context, index) {
                     var task = snapshot.data?.tasks?[index];
-                    print(snapshot.data?.tasks?[index]);
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 17.0),
                       child: Dismissible(
-                          key: Key(task?.id.toString() ?? ""),
-                          background: Row(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.amberSecond,
+                        confirmDismiss: (direction) async {
+                          if (task?.isPermanent == 1) {
+                            return false;
+                          }
+                          return true;
+                        },
+                        key: Key(task?.id.toString() ?? ""),
+                        background: Row(
+                          children: [
+                            Expanded(
+                                child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.amberSecond,
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          'مُنجز',
+                                          color: AppColors.white,
+                                          fontWeight: FontWeight.bold,
+                                          size: 25,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          CustomText(
-                                            'مُنجز',
-                                            color: AppColors.white,
-                                            fontWeight: FontWeight.bold,
-                                            size: 25,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                            )),
+                            Expanded(
+                                child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.greenMain,
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          'مُنجز',
+                                          color: AppColors.white,
+                                          fontWeight: FontWeight.bold,
+                                          size: 25,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              )),
-                              Expanded(
-                                  child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.greenMain,
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          CustomText(
-                                            'مُنجز',
-                                            color: AppColors.white,
-                                            fontWeight: FontWeight.bold,
-                                            size: 25,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                            ],
-                          ),
-                          onDismissed: (v) {
-                            if (task?.iscount.toString() == '1' ||
-                                task?.relatedCount != "0") {
-                              TextEditingController valueController =
-                                  TextEditingController();
-                              Get.dialog(Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Dialog(
-                                    backgroundColor: AppColors.whiteGrey,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(30.0),
-                                      child: Column(
-                                        children: [
-                                          const Text(
-                                              'هذه المهمه مرتبطه بعدد ادخل العدد'),
-                                          const SizedBox(
-                                            height: 30,
-                                          ),
-                                          CustomTextField(
-                                            controller: valueController,
-                                            inputType: TextInputType.number,
-                                          ),
-                                          const SizedBox(
-                                            height: 30,
-                                          ),
-                                          CustomButton(
-                                              color: AppColors.greenMain,
-                                              title: 'حفظ كمُنجز',
-                                              pressed: () {
-                                                Get.back();
-                                                controller.complete(
-                                                    task?.id.toString() ?? "",
-                                                    count:
-                                                        valueController.text);
-                                              })
-                                        ],
-                                      ),
+                              ),
+                            )),
+                          ],
+                        ),
+                        onDismissed: (v) {
+                          if (task?.iscount.toString() == '1' ||
+                              task?.relatedCount != "0") {
+                            TextEditingController valueController =
+                                TextEditingController();
+                            Get.dialog(Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Dialog(
+                                  backgroundColor: AppColors.whiteGrey,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(30.0),
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                            'هذه المهمه مرتبطه بعدد ادخل العدد'),
+                                        const SizedBox(
+                                          height: 30,
+                                        ),
+                                        CustomTextField(
+                                          controller: valueController,
+                                          inputType: TextInputType.number,
+                                        ),
+                                        const SizedBox(
+                                          height: 30,
+                                        ),
+                                        CustomButton(
+                                            color: AppColors.greenMain,
+                                            title: 'حفظ كمُنجز',
+                                            pressed: () {
+                                              Get.back();
+                                              controller.complete(
+                                                  task?.id.toString() ?? "",
+                                                  count: valueController.text);
+                                            })
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ));
-                            } else {
-                              controller.complete(task?.id.toString() ?? "");
-                            }
-                          },
-                          child: cardWidget(task, controller)),
+                                ),
+                              ],
+                            ));
+                          } else {
+                            controller.complete(task?.id.toString() ?? "");
+                          }
+                        },
+                        child: cardWidget(task, controller),
+                      ),
                     );
                   },
                 ),
@@ -567,10 +570,24 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(
-                          item?.name ?? "",
-                          fontWeight: FontWeight.bold,
-                          size: 17,
+                        Row(
+                          children: [
+                            item?.isPermanent == 1
+                                ? const Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Icon(
+                                      Icons.push_pin_rounded,
+                                      size: 15,
+                                      color: AppColors.greyDark,
+                                    ),
+                                  )
+                                : Container(),
+                            CustomText(
+                              item?.name ?? "",
+                              fontWeight: FontWeight.bold,
+                              size: 17,
+                            ),
+                          ],
                         ),
                         CustomText(
                           item?.info ?? "",
@@ -586,7 +603,7 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                       update(() {});
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(12.0),
                       child: Icon(
                         !item!.isOpen
                             ? Icons.arrow_drop_down_rounded
@@ -623,72 +640,82 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                if (item.iscount.toString() == '1' ||
-                                    item.relatedCount != "0") {
-                                  TextEditingController valueController =
-                                      TextEditingController();
-                                  Get.dialog(Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Dialog(
-                                        backgroundColor: AppColors.whiteGrey,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(30.0),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                  'هذه المهمه مرتبطه بعدد ادخل العدد'),
-                                              const SizedBox(
-                                                height: 30,
+                          item.isPermanent == 1
+                              ? Container()
+                              : Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      if (item.iscount.toString() == '1' ||
+                                          item.relatedCount != "0") {
+                                        TextEditingController valueController =
+                                            TextEditingController();
+                                        Get.dialog(Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Dialog(
+                                              backgroundColor:
+                                                  AppColors.whiteGrey,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(30.0),
+                                                child: Column(
+                                                  children: [
+                                                    const Text(
+                                                        'هذه المهمه مرتبطه بعدد ادخل العدد'),
+                                                    const SizedBox(
+                                                      height: 30,
+                                                    ),
+                                                    CustomTextField(
+                                                      controller:
+                                                          valueController,
+                                                      inputType:
+                                                          TextInputType.number,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 30,
+                                                    ),
+                                                    CustomButton(
+                                                        color:
+                                                            AppColors.greenMain,
+                                                        title: 'حفظ كمُنجز',
+                                                        pressed: () {
+                                                          Get.back();
+                                                          controller.complete(
+                                                              item.id
+                                                                  .toString(),
+                                                              count:
+                                                                  valueController
+                                                                      .text);
+                                                        })
+                                                  ],
+                                                ),
                                               ),
-                                              CustomTextField(
-                                                controller: valueController,
-                                                inputType: TextInputType.number,
-                                              ),
-                                              const SizedBox(
-                                                height: 30,
-                                              ),
-                                              CustomButton(
-                                                  color: AppColors.greenMain,
-                                                  title: 'حفظ كمُنجز',
-                                                  pressed: () {
-                                                    Get.back();
-                                                    controller.complete(
-                                                        item.id.toString(),
-                                                        count: valueController
-                                                            .text);
-                                                  })
-                                            ],
+                                            ),
+                                          ],
+                                        ));
+                                      } else {
+                                        controller.complete(item.id.toString());
+                                      }
+                                    },
+                                    child: Container(
+                                      color: AppColors.amberSecond,
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: CustomText(
+                                            'تحديد المهمة كمكتملة',
+                                            color: AppColors.white,
+                                            fontWeight: FontWeight.bold,
+                                            size: 12,
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ));
-                                } else {
-                                  controller.complete(item.id.toString());
-                                }
-                              },
-                              child: Container(
-                                color: AppColors.amberSecond,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: CustomText(
-                                      'تحديد المهمة كمكتملة',
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.bold,
-                                      size: 12,
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
                           // const SizedBox(
                           //   width: 20,
                           // ),

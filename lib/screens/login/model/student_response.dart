@@ -387,34 +387,39 @@ class Task {
   String? status;
   bool isOpen = false;
   int? remainingCount;
+  int? isPermanent;
 
-  Task(
-      {this.id,
-      this.name,
-      this.info,
-      this.url,
-      this.relatedCount,
-      this.iscount,
-      this.relatedTime,
-      this.mustContinuous,
-      this.weight,
-      this.point,
-      this.status,
-      this.remainingCount});
+  Task({
+    this.id,
+    this.name,
+    this.info,
+    this.url,
+    this.relatedCount,
+    this.iscount,
+    this.relatedTime,
+    this.mustContinuous,
+    this.weight,
+    this.point,
+    this.status,
+    this.remainingCount,
+    this.isPermanent,
+  });
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
-      id: json["id"],
-      iscount: json["iscount"],
-      name: json["name"],
-      info: json["info"],
-      url: json["url"],
-      relatedCount: json["relatedCount"],
-      relatedTime: json["relatedTime"],
-      mustContinuous: json["mustContinuous"],
-      weight: json["weight"],
-      point: json["point"],
-      status: json["status"],
-      remainingCount: json["remaining_count"]);
+        id: json["id"],
+        iscount: json["iscount"],
+        name: json["name"],
+        info: json["info"],
+        url: json["url"],
+        relatedCount: json["relatedCount"],
+        relatedTime: json["relatedTime"],
+        mustContinuous: json["mustContinuous"],
+        weight: json["weight"],
+        point: json["point"],
+        status: json["status"],
+        remainingCount: json["remaining_count"],
+        isPermanent: json["isPermanent"],
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -429,6 +434,7 @@ class Task {
         "point": point,
         "status": status,
         "remaining_count": remainingCount,
+        "isPermanent": isPermanent,
       };
 }
 

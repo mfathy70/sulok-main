@@ -23,7 +23,6 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
 
   @override
   void initState() {
-    print(widget.task.relatedCount);
     if (widget.task.url?.isNotEmpty ?? false) {
       controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -61,7 +60,14 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(widget.task.info ?? ""),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(widget.task.info ?? ""),
+                    CustomText(
+                        widget.task.isPermanent == 1 ? "مهمة ثابتة" : ""),
+                  ],
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -89,75 +95,84 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                if (widget.task.iscount.toString() == '1' ||
-                                    widget.task.relatedCount != "0") {
-                                  TextEditingController valueController =
-                                      TextEditingController();
-                                  Get.dialog(Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Dialog(
-                                        backgroundColor: AppColors.whiteGrey,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(30.0),
-                                          child: Column(
-                                            children: [
-                                              const Text(
-                                                  'هذه المهمه مرتبطه بعدد ادخل العدد'),
-                                              const SizedBox(
-                                                height: 30,
+                          widget.task.isPermanent == 1
+                              ? Container()
+                              : Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      if (widget.task.iscount.toString() ==
+                                              '1' ||
+                                          widget.task.relatedCount != "0") {
+                                        TextEditingController valueController =
+                                            TextEditingController();
+                                        Get.dialog(Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Dialog(
+                                              backgroundColor:
+                                                  AppColors.whiteGrey,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(30.0),
+                                                child: Column(
+                                                  children: [
+                                                    const Text(
+                                                        'هذه المهمه مرتبطه بعدد ادخل العدد'),
+                                                    const SizedBox(
+                                                      height: 30,
+                                                    ),
+                                                    CustomTextField(
+                                                      controller:
+                                                          valueController,
+                                                      inputType:
+                                                          TextInputType.number,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 30,
+                                                    ),
+                                                    CustomButton(
+                                                        color:
+                                                            AppColors.greenMain,
+                                                        title: 'حفظ كمُنجز',
+                                                        pressed: () {
+                                                          Get.back();
+                                                          controller.complete(
+                                                              widget.task.id
+                                                                  .toString(),
+                                                              count:
+                                                                  valueController
+                                                                      .text);
+                                                        })
+                                                  ],
+                                                ),
                                               ),
-                                              CustomTextField(
-                                                controller: valueController,
-                                                inputType: TextInputType.number,
-                                              ),
-                                              const SizedBox(
-                                                height: 30,
-                                              ),
-                                              CustomButton(
-                                                  color: AppColors.greenMain,
-                                                  title: 'حفظ كمُنجز',
-                                                  pressed: () {
-                                                    Get.back();
-                                                    controller.complete(
-                                                        widget.task.id
-                                                                .toString() ??
-                                                            "",
-                                                        count: valueController
-                                                            .text);
-                                                  })
-                                            ],
+                                            ),
+                                          ],
+                                        ));
+                                      } else {
+                                        controller.complete(
+                                            widget.task.id.toString());
+                                      }
+                                    },
+                                    child: Container(
+                                      color: AppColors.amberSecond,
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: CustomText(
+                                            'تحديد المهمة كمكتملة',
+                                            color: AppColors.white,
+                                            fontWeight: FontWeight.bold,
+                                            size: 12,
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ));
-                                } else {
-                                  controller
-                                      .complete(widget.task.id.toString());
-                                }
-                              },
-                              child: Container(
-                                color: AppColors.amberSecond,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: CustomText(
-                                      'تحديد المهمة كمكتملة',
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.bold,
-                                      size: 12,
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
                           // const SizedBox(
                           //   width: 20,
                           // ),

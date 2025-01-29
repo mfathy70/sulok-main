@@ -47,7 +47,7 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       closeLoading();
-      HelperFun.showToast('الرمز المدخل غير صحيح');
+      HelperFun.showToast(e.toString());
     }
   }
 

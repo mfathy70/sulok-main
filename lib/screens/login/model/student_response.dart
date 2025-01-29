@@ -388,6 +388,7 @@ class Task {
   bool isOpen = false;
   int? remainingCount;
   int? isPermanent;
+  String? endTaskDate;
 
   Task({
     this.id,
@@ -403,6 +404,7 @@ class Task {
     this.status,
     this.remainingCount,
     this.isPermanent,
+    this.endTaskDate,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) => Task(
@@ -419,6 +421,7 @@ class Task {
         status: json["status"],
         remainingCount: json["remaining_count"],
         isPermanent: json["isPermanent"],
+        endTaskDate: json["end_task_date"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -435,6 +438,7 @@ class Task {
         "status": status,
         "remaining_count": remainingCount,
         "isPermanent": isPermanent,
+        "end_task_date": endTaskDate,
       };
 }
 

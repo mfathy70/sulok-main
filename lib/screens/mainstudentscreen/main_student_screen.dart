@@ -381,7 +381,7 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                       padding: const EdgeInsets.only(bottom: 17.0),
                       child: Dismissible(
                         confirmDismiss: (direction) async {
-                          if (task?.isPermanent == 1) {
+                          if (task?.isPermanent == 1 || task?.relatedTime != "0") {
                             return false;
                           }
                           return true;
@@ -640,7 +640,7 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          item.isPermanent == 1
+                          item.isPermanent == 1 || item.relatedTime != "0"
                               ? Container()
                               : Expanded(
                                   child: InkWell(

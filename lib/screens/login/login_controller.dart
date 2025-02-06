@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:sulok/constant/global_functions.dart';
 import 'package:sulok/helper/custom/custom_loading.dart';
@@ -20,6 +21,7 @@ class LoginController extends GetxController {
   String smsCode = '';
   String verificationId = '';
   TextEditingController phoneController = TextEditingController();
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   var isTeacher = false;
 
@@ -87,10 +89,28 @@ class LoginController extends GetxController {
 
   makeRegisterStudent(String? token, String? phone) async {
     loading();
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    // If permissions still not granted, throw an error
+    if (permission == LocationPermission.denied) {
+      throw Exception('Location permissions are denied');
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
     LoginRequest loginRequest = LoginRequest(
-        phone: phone,
-        token: token,
-        tokenfcm: await FirebaseMessaging.instance.getToken());
+      phone: phone,
+      token: token,
+      tokenfcm: await firebaseMessaging.getToken(),
+      long: position.longitude,
+      lat: position.latitude,
+    );
+
     LoginRepo().studentRegisterAPI(loginRequest).then((value) async {
       closeLoading();
       if (value.profile?.name?.isNotEmpty ?? false) {
@@ -111,7 +131,7 @@ class LoginController extends GetxController {
     LoginRequest loginRequest = LoginRequest(
         phone: phone,
         token: token,
-        tokenfcm: await FirebaseMessaging.instance.getToken());
+        tokenfcm: await firebaseMessaging.getToken());
     LoginRepo().loginRequestAPI(loginRequest).then((value) async {
       closeLoading();
       if (value.msgNum != 0) {

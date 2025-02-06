@@ -10,10 +10,11 @@ import '../constant/global_functions.dart';
 late AndroidNotificationChannel channel;
 
 bool isFlutterLocalNotificationsInitialized = false;
+final firebaseMessaging = FirebaseMessaging.instance;
 
 initialFireBaseMessages() async {
   securePrint(PayloadData().toJson().toString());
-  await FirebaseMessaging.instance.requestPermission(
+  await firebaseMessaging.requestPermission(
     alert: true,
     announcement: false,
     badge: true,
@@ -22,7 +23,7 @@ initialFireBaseMessages() async {
     provisional: false,
     sound: true,
   );
-  FirebaseMessaging.instance.getInitialMessage().then((value) {
+  firebaseMessaging.getInitialMessage().then((value) {
     handlePayLoad(json.encode(value?.data ?? {}));
   });
 
@@ -37,7 +38,7 @@ Future<void> setupFlutterNotifications() async {
   if (isFlutterLocalNotificationsInitialized) {
     return;
   }
-  await FirebaseMessaging.instance.requestPermission(
+  await firebaseMessaging.requestPermission(
     alert: true,
     announcement: false,
     badge: true,
@@ -80,7 +81,7 @@ Future<void> setupFlutterNotifications() async {
     android: initializationSettingsAndroid,
     iOS: initializationSettingsIOS,
   );
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  await firebaseMessaging.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,

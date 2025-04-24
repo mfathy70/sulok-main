@@ -66,11 +66,11 @@ class AddTaskController extends GetxController {
   //Salwat
   List<AlSalwat> mainSalawat = [];
   List<AlSalwat> alSalwatList = [
-    AlSalwat(item: Item(name: 'صلاة الفجْر	', id: '1'), number: 0),
-    AlSalwat(item: Item(name: 'صلاة الظُّهْر	', id: '2'), number: 0),
-    AlSalwat(item: Item(name: 'صلاة العَصر	', id: '3'), number: 0),
-    AlSalwat(item: Item(name: 'صلاة المَغرب', id: '4'), number: 0),
-    AlSalwat(item: Item(name: 'صلاة العِشاء', id: '5'), number: 0)
+    AlSalwat(item: Item(name: 'صلاة الفجْر	', id: '1'), number: "0"),
+    AlSalwat(item: Item(name: 'صلاة الظُّهْر	', id: '2'), number: "0"),
+    AlSalwat(item: Item(name: 'صلاة العَصر	', id: '3'), number: "0"),
+    AlSalwat(item: Item(name: 'صلاة المَغرب', id: '4'), number: "0"),
+    AlSalwat(item: Item(name: 'صلاة العِشاء', id: '5'), number: "0")
   ];
 
   double sliderWight = 0;
@@ -79,7 +79,7 @@ class AddTaskController extends GetxController {
   List<Task> tasks = [];
 
   AlSalwat selectedNewSalah =
-      AlSalwat(item: Item(name: 'إختر الصلاة', id: '0'), number: 0);
+      AlSalwat(item: Item(name: 'إختر الصلاة', id: '0'), number: "0");
 
   AddTaskController({this.task});
 
@@ -174,7 +174,7 @@ class AddTaskController extends GetxController {
         // Create a map with the extracted key-value pair and add it to the list
         Map<int, int> pair = {key: value};
         AlSalwat temp =
-            AlSalwat(item: alSalwatList[key - 1].item, number: value);
+            AlSalwat(item: alSalwatList[key - 1].item, number: "$value");
         salawatFinal.add(temp);
         keyValuePairs.add(pair);
       }
@@ -299,7 +299,7 @@ class AddTaskController extends GetxController {
 
 class AlSalwat {
   Item item;
-  int number;
+  String number;
 
   AlSalwat({required this.item, required this.number});
 

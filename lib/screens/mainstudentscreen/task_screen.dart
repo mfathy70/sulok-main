@@ -95,7 +95,7 @@ class _TaskScreenDetailsState extends State<TaskScreenDetails> {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          widget.task.isPermanent == 1 || widget.task.relatedTime != "0"
+                          widget.task.isPermanent == 1
                               ? Container()
                               : Expanded(
                                   child: InkWell(

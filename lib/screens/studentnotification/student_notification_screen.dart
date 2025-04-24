@@ -6,16 +6,14 @@ import 'package:sulok/constant/app_images.dart';
 import 'package:sulok/constant/const_var.dart';
 import 'package:sulok/helper/custom/custom_button.dart';
 import 'package:sulok/helper/custom/default_screen.dart';
-
 import '../../constant/app_colors.dart';
 import '../../helper/custom/custom_text.dart';
-import '../../helper/custom/white_screen.dart';
 import '../../helper/local_storage_helper.dart';
 import '../login/model/student_response.dart';
 import '../studentmessages/student_message_controller.dart';
 
 class StudentNotificationScreen extends StatelessWidget {
-  const StudentNotificationScreen({Key? key}) : super(key: key);
+  const StudentNotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +101,7 @@ class StudentNotificationScreen extends StatelessWidget {
                                           onPressed: () {
                                             controller
                                                 .makeAllDeleteNotifications();
+                                            controller.update();
                                           },
                                           child: const CustomText(
                                             "حذف",

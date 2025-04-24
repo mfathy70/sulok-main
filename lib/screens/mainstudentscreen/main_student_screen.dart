@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -381,7 +382,8 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                       padding: const EdgeInsets.only(bottom: 17.0),
                       child: Dismissible(
                         confirmDismiss: (direction) async {
-                          if (task?.isPermanent == 1 || task?.relatedTime != "0") {
+                          if (task?.isPermanent == 1 ||
+                              task?.relatedTime != "0") {
                             return false;
                           }
                           return true;
@@ -570,7 +572,7 @@ class _MainStudentScreenState extends State<MainStudentScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        Wrap(
                           children: [
                             item?.isPermanent == 1
                                 ? const Padding(

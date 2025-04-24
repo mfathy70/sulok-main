@@ -378,9 +378,10 @@ class AddTaskScreen extends StatelessWidget {
                     children: [
                       CustomText(item.item.name ?? ""),
                       NumberBox(
-                        currentNumber: item.number,
+                        currentNumber: int.parse(item.number),
                         onChange: (v) {
-                          item.number = v;
+                          item.number =
+                              v.isNegative ? v.toString() : "+$v".toString();
                           con.update();
                         },
                         enableNegative: true,
@@ -414,14 +415,14 @@ class AddTaskScreen extends StatelessWidget {
                     ),
                   ),
                   NumberBox(
-                    currentNumber: con.selectedNewSalah.number,
+                    currentNumber: int.parse(con.selectedNewSalah.number),
                     onChange: (v) {
                       if (con.selectedNewSalah.item.id != '0') {
-                        con.selectedNewSalah.number = v;
+                        con.selectedNewSalah.number = v.toString();
                         con.mainSalawat.add(con.selectedNewSalah);
                         con.selectedNewSalah = AlSalwat(
                             item: Item(name: 'إختر الصلاة', id: '0'),
-                            number: 0);
+                            number: "0");
                         con.update();
                       }
                     },

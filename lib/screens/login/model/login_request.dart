@@ -2,30 +2,30 @@ class LoginRequest {
   final String? token;
   final String? phone;
   final String? tokenfcm;
-  final double? long;
-  final double? lat;
+  final String? latitude;
+  final String? longitude;
 
   LoginRequest({
     this.token,
     this.tokenfcm,
     this.phone,
-    this.long,
-    this.lat,
+    this.latitude,
+    this.longitude,
   });
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) => LoginRequest(
         token: json["token"],
         tokenfcm: json["tokenfcm"],
         phone: json["phone"],
-        lat: json["latitude"],
-        long: json["longitude"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
       );
 
   Map<String, dynamic> toJson() => {
         "token": token,
         "phone": phone,
         "tokenfcm": tokenfcm,
-        "latitude": lat,
-        "longitude": long,
+        "latitude": latitude,
+        "longitude": longitude,
       };
 }

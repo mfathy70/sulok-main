@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -22,8 +24,39 @@ class LoginController extends GetxController {
   String verificationId = '';
   TextEditingController phoneController = TextEditingController();
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  bool? serviceEnabled;
+  LocationPermission? permission;
 
   var isTeacher = false;
+
+  @override
+  void onInit() async {
+    print("call onInit"); // this line not printing
+    await _requestLocationPermission();
+
+    super.onInit();
+  }
+
+  Future<void> _requestLocationPermission() async {
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled!) {
+      HelperFun.showToast("Location services are disabled.");
+      log('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        HelperFun.showToast("Location permissions are denied");
+        log('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      HelperFun.showToast(
+          "Location permissions are permanently denied, we cannot request permissions.");
+      log('Location permissions are permanently denied, we cannot request permissions.');
+    }
+  }
 
   String getFullPhoneNumber() {
     if (phoneController.text.isEmpty) return '';
@@ -89,28 +122,17 @@ class LoginController extends GetxController {
 
   makeRegisterStudent(String? token, String? phone) async {
     loading();
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    }
-
-    // If permissions still not granted, throw an error
-    if (permission == LocationPermission.denied) {
-      throw Exception('Location permissions are denied');
-    }
-
     Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+        desiredAccuracy: LocationAccuracy.high);
+    log("position: ${position.latitude} , ${position.longitude}");
 
     LoginRequest loginRequest = LoginRequest(
       phone: phone,
       token: token,
-      tokenfcm: await firebaseMessaging.getToken(),
-      long: position.longitude,
-      lat: position.latitude,
+      tokenfcm: await FirebaseMessaging.instance.getToken(),
+      latitude: position.latitude.toString(),
+      longitude: position.longitude.toString(),
     );
-
     LoginRepo().studentRegisterAPI(loginRequest).then((value) async {
       closeLoading();
       if (value.profile?.name?.isNotEmpty ?? false) {
@@ -142,11 +164,5 @@ class LoginController extends GetxController {
         Get.offAll(const LoginScreen());
       }
     });
-  }
-
-  @override
-  void onInit() async {
-    // TODO: implement onInit
-    super.onInit();
   }
 }
